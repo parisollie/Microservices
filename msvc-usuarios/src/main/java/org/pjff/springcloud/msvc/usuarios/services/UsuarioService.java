@@ -19,6 +19,9 @@ public interface UsuarioService {
     // Eliminamos por Id
     void eliminar(Long id);
 
+    // Vid 39
+    List<Usuario> listarPorIds(Iterable<Long> ids);
+
     // Vid 29, agregamos un nuevo
     Optional<Usuario> porEmail(String email);
 

@@ -1,5 +1,6 @@
 package org.pjff.springcloud.msvc.usuarios.services;
 
+import org.pjff.springcloud.msvc.usuarios.clients.CursoClienteRest;
 import org.pjff.springcloud.msvc.usuarios.models.entity.Usuario;
 import org.pjff.springcloud.msvc.usuarios.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     // Inyectamos y hacemos uso del objeto con @Autowired
     @Autowired
     private UsuarioRepository repository;
+
+    // Vid 42
+    @Autowired
+    private CursoClienteRest client;
 
     @Override
     @Transactional(readOnly = true)
@@ -42,6 +47,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void eliminar(Long id) {
         repository.deleteById(id);
+        // Vid 42
+        client.eliminarCursoUsuarioPorId(id);
+    }
+
+    // Vid 39
+    @Override
+    @Transactional(readOnly = true)
+    public List<Usuario> listarPorIds(Iterable<Long> ids) {
+        return (List<Usuario>) repository.findAllById(ids);
     }
 
     // Vid 29

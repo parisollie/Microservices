@@ -1,25 +1,15 @@
-package com.pjff.springcloud.msvc.cursos.entity;
+package com.pjff.springcloud.msvc.cursos.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-//import jakarta.validation.constraints.NotEmpty;
-
-//Paso 1 Vid 14
-//Anotamos la clase entity
-@Entity
-// Lo mapeamos a la tabla
-@Table(name = "cursos")
-public class Curso {
-
+public class Usuario {
     /*--------------------------  ATRIBUTOS ------------------------------------------ */
-    // Le mandamos su id
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Vid 33, copiamos los atributos de Usuario.
     private Long id;
 
-    // Vid 28, agregamos la validación.
-    @NotEmpty
     private String nombre;
+
+    private String email;
+
+    private String password;
 
     /*--------------------------  GETTERS AND SETTERS --------------------------------- */
 
@@ -37,5 +27,21 @@ public class Curso {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
