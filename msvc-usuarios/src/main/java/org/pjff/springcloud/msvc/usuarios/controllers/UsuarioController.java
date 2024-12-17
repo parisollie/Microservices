@@ -21,13 +21,22 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
-    // Definimos los metódos
+    /*
+     * Definimos los metódos
+     * 
+     * @GetMapping
+     * // devuelve una lista de usuarios
+     * public List<Usuario> listar() {
+     * // devolvemos un json que es una lista , esto se convierte en un json por el
+     * // RESTCONTROLLER
+     * return service.listar();
+     * }
+     */
+    // Vid 57
+
     @GetMapping
-    // devuelve una lista de usuarios
-    public List<Usuario> listar() {
-        // devolvemos un json que es una lista , esto se convierte en un json por el
-        // RESTCONTROLLER
-        return service.listar();
+    public Map<String, List<Usuario>> listar() {
+        return Collections.singletonMap("users", service.listar());
     }
 
     // La ruta es cuando venga el id, es una variable y se expresa así {id}
