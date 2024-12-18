@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.pjff.springcloud.msvc.cursos.models.Usuario;
 
 //Vid 35,nombre del microservicio que vamos a usar y la ruta en donde esta ubicado
-@FeignClient(name = "msvc-usuarios", url = "localhost:8001")
+@FeignClient(name = "msvc-usuarios", url = "msvc-usuarios:8001")
 public interface UsuarioClientRest {
 
     // y ponemos la ruta del controlador
