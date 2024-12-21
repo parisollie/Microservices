@@ -1,8 +1,10 @@
 package org.pjff.springcloud.msvc.usuarios.controllers;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.pjff.springcloud.msvc.usuarios.models.entity.Usuario;
 import org.pjff.springcloud.msvc.usuarios.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -32,8 +34,18 @@ public class UsuarioController {
      * return service.listar();
      * }
      */
-    // Vid 57
 
+    // Vid 136
+    @Autowired
+    private ApplicationContext context;
+
+    @GetMapping("/crash")
+    public void crash() {
+        // Hacemos un cast
+        ((ConfigurableApplicationContext) context).close();
+    }
+
+    // Vid 57
     @GetMapping
     public Map<String, List<Usuario>> listar() {
         return Collections.singletonMap("users", service.listar());
