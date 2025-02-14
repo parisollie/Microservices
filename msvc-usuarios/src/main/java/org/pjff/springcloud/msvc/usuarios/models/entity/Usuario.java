@@ -17,22 +17,21 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
  */
-//Vid 10
+//V-10,paso 3 
 @Entity
-// Nombre de la tabla a la cual estará asociado.
+// Paso 4, nombre de la tabla a la cual estará asociado.
 @Table(name = "usuarios")
 public class Usuario {
 
-    /*------------------------------- ATRIBUTOS ---------------------------------------- */
-    // Le ponemos la llave primaria con la auto-incremental con el @GeneratedValue
+    /*-------------------------------Paso 5, ponemos  ATRIBUTOS ---------------------------------------- */
+    // Le ponemos la llave primaria con el auto-incremental con el @GeneratedValue
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // Vid 10 ,la llave primaria
+    // la llave primaria
     private Long id;
 
     /*
-     * Vid 28, agregamos las validacin @NotBlank, esta extension debe estar en el
-     * pom
+     * V-28, agregamos las validacin @NotBlank, esta extension debe estar en el pom
      * 
      * @NotEmpty es solo para tipos String que sean de referencia como Long, Integer
      * Date o cualquier otro objeto usamos @Not Null
@@ -43,13 +42,13 @@ public class Usuario {
     // Agregamos validaciones.
     @NotEmpty
     @Email
-    // Column sirve paa que sea único y no se repita en la base de datos.
+    // Column sirve para que el email sea unico en la tabla email.
     @Column(unique = true)
     private String email;
 
     private String password;
 
-    /*--------------------------  GETTERS AND SETTERS --------------------------------- */
+    /*-------------------------- Paso 6, GETTERS AND SETTERS --------------------------------- */
     public Long getId() {
         return id;
     }

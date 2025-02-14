@@ -6,18 +6,20 @@ import java.util.Optional;
 import org.pjff.springcloud.msvc.usuarios.models.entity.Usuario;
 
 public interface UsuarioService {
-    // Vid 13, paso 3, devuelve una lista de tipo usuario
+    // V-13, Paso 8, devuelve una lista de tipo usuario
     List<Usuario> listar();
 
     // Devuelve que el objeto este en la consulta,para que no devuelta un null
     // pointer exception
     Optional<Usuario> porId(Long id);
 
-    // Devuleve el usuario y pasamos un objeto usuario
+    // Devuelve el usuario y pasamos un objeto usuario
     Usuario guardar(Usuario usuario);
 
     // Eliminamos por Id
     void eliminar(Long id);
+
+    // --------------------------------------------------------------------------------
 
     // Vid 39
     List<Usuario> listarPorIds(Iterable<Long> ids);

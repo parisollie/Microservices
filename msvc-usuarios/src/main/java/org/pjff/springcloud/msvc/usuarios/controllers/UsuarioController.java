@@ -14,17 +14,17 @@ import java.util.*;
 import jakarta.validation.*;
 //import jakarta.validation.constraints.*;
 
-//Vid 14,paso 5, le ponemos RestController que es para trabajar con API-REST
+//V-14,paso 15, le ponemos RestController que es para trabajar con API-REST con POST-man
 @RestController
 public class UsuarioController {
 
-    // Necesitamos interactuar con el service ,asi que lainyectamos con la interfaz
-    // no con IMPIL, SIEMPRE.
+    // Paso 16,Necesitamos interactuar con el service ,asi que la inyectamos con la
+    // interfaz no con IMPIL, SIEMPRE con la interfaz .
     @Autowired
     private UsuarioService service;
 
     /*
-     * Definimos los metódos
+     * Paso 17, Definimos los metódos
      * 
      * @GetMapping
      * // devuelve una lista de usuarios
@@ -51,37 +51,41 @@ public class UsuarioController {
         return Collections.singletonMap("users", service.listar());
     }
 
-    // La ruta es cuando venga el id, es una variable y se expresa así {id}
+    // Paso 18,La ruta es cuando venga el id, es una variable y se expresa así {id}
     @GetMapping("/{id}")
-    // inyeccion de dependecia, @PathVariable Long i
+    // inyeccion de dependecia, @PathVariable Long i, para variables de la ruta
+    // Response entitity ? lo dejamos en forma generica para que nos devuelva un
+    // tipo void
     public ResponseEntity<?> detalle(@PathVariable Long id) {
         // service.porId(id), devuelve un opcional
         Optional<Usuario> usuarioOptional = service.porId(id);
-        // si esta presenta
+        // si esta presente
         if (usuarioOptional.isPresent()) {
-            // devolvemos el objeto
+            // devolvemos el objeto tipo 200
             return ResponseEntity.ok(usuarioOptional.get());
         }
-        // sino devolvemos una respuesta no econtrado 404,no existes
+        // sino devolvemos una respuesta no econtrado 404,no existes y evitamos el null
         return ResponseEntity.notFound().build();
     }
 
-    // Vid 15, paso 5, guarda con el post
+    // V-15, paso 19, guarda con el post
     @PostMapping
-    // devuelve el usuario creado, el contenido que este en el request ,lo
-    // inyectamos acá
-    // y se convierte en el objeto usuario.
-    // Agregamos validacion @Valid
-    // BindingResult result mensaje de las validaciones
+    // @ResponseStatus(HttpStatus.CREATED)
+    /*
+     * devuelve el usuario creado, el contenido que este en el request ,lo
+     * inyectamos acá y se convierte en el objeto usuario.
+     * Agregamos validacion @Valid
+     * BindingResult result mensaje de las validaciones
+     */
     public ResponseEntity<?> crear(@Valid @RequestBody Usuario usuario, BindingResult result) {
 
-        // Vid 28, si tiene errores
+        // V-28, si tiene errores
         if (result.hasErrors()) {
             // regresamos la respuesta con el JSON
             return validar(result);
         }
 
-        // Vid 30,!usuario.getEmail().isEmpty(),si no esta vacio
+        // V-30,!usuario.getEmail().isEmpty(),si no esta vacio
         if (!usuario.getEmail().isEmpty() && service.existePorEmail(usuario.getEmail())) {
             // Vid 29
             return ResponseEntity.badRequest()
@@ -89,12 +93,12 @@ public class UsuarioController {
                             .singletonMap("mensaje", "Ya existe un usuario con ese correo electronico!"));
         }
 
-        // le mandamos el 201, que es created
+        // Paso 20,le mandamos el 201, que es created
         return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(usuario));
     }
 
-    // Para editar el id es variable, mandamos el objeto usuario y el valor que es
-    // el id
+    // Paso 21, Para editar el id es variable, mandamos el objeto usuario y el valor
+    // que es el id
     @PutMapping("/{id}")
     /*
      * El orden (@Valid @RequestBody Usuario usuario, BindingResult result,
@@ -110,6 +114,7 @@ public class UsuarioController {
         }
         // Lo buscamos en la base de datos por el id
         Optional<Usuario> o = service.porId(id);
+        // Paso 22, si esta presente
         if (o.isPresent()) {
             // Modificamos el usuario en la base de datos con get
             Usuario usuarioDb = o.get();
@@ -125,32 +130,33 @@ public class UsuarioController {
                         .body(Collections
                                 .singletonMap("mensaje", "Ya existe un usuario con ese correo electronico!"));
             }
-            // Modificamos el usuario
+            // Paso 23 , Modificamos el usuario
             usuarioDb.setNombre(usuario.getNombre());
             usuarioDb.setEmail(usuario.getEmail());
             usuarioDb.setPassword(usuario.getPassword());
-            // Lo Guardamos en la base de datos
+            // Paso 24,Lo Guardamos en la base de datos
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(usuarioDb));
         }
         return ResponseEntity.notFound().build();
     }
 
-    // Vid 16 paso 6,le pasamos el id
+    // V-16 Paso 25,le pasamos el id
     @DeleteMapping("/{id}")
-    // No content m y solo le pasamoos el pathg
+    // No content m y solo le pasamoos el path
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         // Le pasamos por el id , por si existe
         Optional<Usuario> o = service.porId(id);
+        // para validar si existe el id
         if (o.isPresent()) {
             service.eliminar(id);
-            // devolvemos la respuesta
+            // devolvemos la respuesta que es un 204
             return ResponseEntity.noContent().build();
         }
         // sino existe el id en la base de datos
         return ResponseEntity.notFound().build();
     }
 
-    // Vid 39
+    // V-39
     @GetMapping("/usuarios-por-curso")
     public ResponseEntity<?> obtenerAlumnosPorCurso(@RequestParam List<Long> ids) {
         return ResponseEntity.ok(service.listarPorIds(ids));

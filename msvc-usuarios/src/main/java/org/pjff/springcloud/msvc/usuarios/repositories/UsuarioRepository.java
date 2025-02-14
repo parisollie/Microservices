@@ -5,14 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
-//Vid 12,paso 2, importamos el  CrudRepository nuestra clase usuario.
-//Le pasamos Long que es el tipo de dato del id
+//V-12,Paso 7, importamos el  CrudRepository nuestra clase usuario.
+//Le pasamos Long que es el tipo de dato del id del usuario
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
-    // Vid 29,devuelve un Optional del tipo usuario,buscar el campo email
+    // V-29,devuelve un Optional del tipo usuario,buscar el campo email
     Optional<Usuario> findByEmail(String email);
 
-    // Vid 30, se hace una simplifacion mejor, IMPORTANTe
+    // V-30, se hace una simplifacion mejor, IMPORTANTe
     @Query("select u from Usuario u where u.email=?1")
     Optional<Usuario> porEmail(String email);
 
